@@ -58,9 +58,11 @@ async def on_message(message):
         attached.append(result)
 
     if len(attached) == len(attachments):
-        await message.channel.send('I have attached these links to Trello for you. Please remember to organise them at https://trello.com/b/SAJvonRo/dump.')
+        reply = 'I have attached these links to Trello for you. Please remember to organise them at https://trello.com/b/SAJvonRo/dump.'
     else:
-        await message.channel.send('Oops! Something went wrong. Please attach these links manually to https://trello.com/.')
+        reply = 'Oops! Something went wrong. Please attach these links manually to https://trello.com/.'
+
+    await message.channel.send(reply, delete_after=5)
 
 
 discord_client.run(os.getenv('DISCORD_TOKEN'))
