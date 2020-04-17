@@ -2,18 +2,45 @@ from urllib import request
 from bs4 import BeautifulSoup
 
 def get_board(boards, name):
+    """
+    Returns Trello board object out of a list of boards.
+
+    Input:
+    boards: List containing Trello board objects
+    name : name of the board required
+
+    Return value: Trello board object
+    """
     for board in boards:
         if board.name == name:
             return board
     return None
 
 def get_list(lists, name):
+    """
+    Returns Trello list object out of a list of Lists.
+
+    Input:
+    lists: List containing Trello list objects
+    name : name of the list required
+
+    Return value: Trello list object
+    """
     for item in lists:
         if item.name == name:
             return item
     return None
 
 def get_attachments(message, URLs):
+    """
+    Returns a list containing attachments from the specified URLs.add()
+
+    Inputs:
+    message: A Discord message object
+    URLs   : A list containing URLs
+
+    Return value is a list containing dictionaries, with fields title and URL.
+    """
     # add https:// to URLs 
     for i in range(len(URLs)):
         URL = URLs[i]
@@ -53,6 +80,16 @@ def get_attachments(message, URLs):
     return attachments
 
 def create_card(List, author, attachment):
+    """
+    Creates a card.
+
+    Inputs:
+    List: Trello List object 
+    author: string, containing the message author
+    attachment: dictionary with title and URL fields
+
+    Returns the ID of the card created.
+    """
     name = attachment["title"] + " - " + author
     description = "This card was pulled automatically from Discord. Please categorize it properly."
     Card = List.add_card(name=name, desc=description)
