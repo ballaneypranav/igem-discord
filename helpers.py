@@ -24,10 +24,11 @@ def get_list(lists, name):
     lists: List containing Trello list objects
     name : name of the list required
 
-    Return value: Trello list object
+    Return value: Trello list object if unarchived list exists
+    None otherwise.
     """
     for item in lists:
-        if item.name == name:
+        if item.name == name and not item.closed:
             return item
     return None
 
@@ -93,7 +94,6 @@ def create_card(List, author, attachment):
     name = attachment["title"] + " - " + author
     description = "This card was pulled automatically from Discord. Please categorize it properly."
     Card = List.add_card(name=name, desc=description)
-    print(Card)
 
     result = Card.attach(
             name = attachment["title"],

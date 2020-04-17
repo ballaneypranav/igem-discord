@@ -21,7 +21,10 @@ async def on_ready():
 @discord_client.event
 async def on_message(message):
     # print message
-    print(message.author, ": ", message.content)
+    # print(message.author, ": ", message.content)
+
+    if message.author.bot:
+        return
 
     # extract URLs
     extractor = URLExtract()
@@ -34,8 +37,8 @@ async def on_message(message):
     # create attachments from URLs
     attachments = get_attachments(message, URLs)
     
-    print("Attachments created!")
-    print(*attachments, sep="\n")
+    # print("Attachments created!")
+    # print(*attachments, sep="\n")
   
     # get trello board
     all_boards = trello_client.list_boards()
@@ -55,9 +58,9 @@ async def on_message(message):
         attached.append(result)
 
     if len(attached) == len(attachments):
-        await message.channel.send('I have attached these links to Trello for you. Please remember to organise them.')
+        await message.channel.send('I have attached these links to Trello for you. Please remember to organise them at https://trello.com/b/SAJvonRo/dump.')
     else:
-        await message.channel.send('Oops! Something went wrong. Please attach these links manually.')
+        await message.channel.send('Oops! Something went wrong. Please attach these links manually to https://trello.com/.')
 
 
 discord_client.run(os.getenv('DISCORD_TOKEN'))
