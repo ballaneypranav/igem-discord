@@ -29,12 +29,14 @@ async def on_message(message):
     extractor = URLExtract()
     URLs = list(extractor.gen_urls(message.content))
 
+    if URLs == []:
+        return
+
     # remove URLs from message
     text = message.content
     for i in range(len(URLs)):
         URL = URLs[i]
-
-        if "https://" not in URL:
+        if "https://" not in URL and "http://" not in URL:
             URLs[i] = "https://" + URL
 
     # start storing attachments
@@ -55,7 +57,7 @@ async def on_message(message):
     for URL in URLs:
         # find title, otherwise just use the URL
         try:
-            page = request.urlopen(URL, timeout=1)
+            page = request.urlopen(URL, timeout=2)
             soup = BeautifulSoup(page, 'html.parser')
             title = soup.find('title').string
         except:
@@ -95,7 +97,7 @@ async def on_message(message):
         )
         print("attached")
     
-    await channel.send('I have attached these links to Trello for you. Please remember to organise them.')
+    await message.channel.send('I have attached these links to Trello for you. Please remember to organise them.')
 
 
 
