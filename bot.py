@@ -33,6 +33,7 @@ async def on_message(message):
     text = message.content
     for i in range(len(URLs)):
         URL = URLs[i]
+
         if "https://" not in URL:
             URLs[i] = "https://" + URL
 
@@ -93,6 +94,9 @@ async def on_message(message):
             url  = attachment["URL"]
         )
         print("attached")
+    
+    await channel.send('I have attached these links to Trello for you. Please remember to organise them.')
+
 
 
 discord_client.run(os.getenv('DISCORD_TOKEN'))
