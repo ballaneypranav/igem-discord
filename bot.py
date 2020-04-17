@@ -52,13 +52,13 @@ async def on_message(message):
 
     # now get title for the remaining URLs
     for URL in URLs:
-        # find title
+        # find title, otherwise just use the URL
         try:
             page = request.urlopen(URL, timeout=1)
             soup = BeautifulSoup(page, 'html.parser')
             title = soup.find('title').string
         except:
-            title = ""
+            title = URL
 
         # store attachment
         attachment = {}
@@ -83,10 +83,7 @@ async def on_message(message):
 
     # create card for each attachment
     for attachment in attachments:
-        if attachment["title"] != "":
-            name = attachment["title"] + " - " + str(message.author.name)
-        else:
-            name = str(message.author.name)
+        name = attachment["title"] + " - " + str(message.author.name)
         description = "This card was pulled automatically from Discord. Please categorize it properly."
         Card = List.add_card(name=name, desc=description)
         print(Card)
