@@ -62,7 +62,10 @@ async def on_message(message):
     else:
         reply = 'Oops! Something went wrong. Please attach these links manually to https://trello.com/.'
 
-    await message.channel.send(reply, delete_after=5)
+    # sent reply and delete after 5 seconds
+    sent = await message.channel.send(reply, delete_after=5)
+    # suppress embeds
+    await sent.edit(suppress=True)
 
 
 discord_client.run(os.getenv('DISCORD_TOKEN'))

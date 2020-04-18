@@ -42,15 +42,12 @@ def get_attachments(message, URLs):
 
     Return value is a list containing dictionaries, with fields title and URL.
     """
-    text = message.content
     # add https:// to URLs 
     for i in range(len(URLs)):
         URL = URLs[i]
         if "https://" not in URL and "http://" not in URL:
             URLs[i] = "http://" + URL
-            text.replace(URL, URLs[i])
-            print(text)
-
+            
     # start storing attachments
     attachments = []
 
