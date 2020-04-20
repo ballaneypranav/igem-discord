@@ -13,6 +13,11 @@ trello_client = TrelloClient(
     # token_secret='your-oauth-token-secret'
 )
 
+IGNORE = [
+    'trello.com',
+    'meet.google.com'
+]
+
 @discord_client.event
 async def on_ready():
     print('Bot is ready.')
@@ -29,6 +34,12 @@ async def on_message(message):
     # extract URLs
     extractor = URLExtract()
     URLs = list(extractor.gen_urls(message.content))
+
+    # ignore the URLs in the IGNORE list
+    for i in range(len(URLs)):
+        for item in IGNORE:
+            if item in URLs[i]:
+                URLs.remove(URLs[i])
 
     # ignore message if there were no URLs
     if URLs == []:
